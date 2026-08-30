@@ -1,0 +1,4 @@
+- `[ ]` Define "Strong" accent colors in `Color.kt`
+- `[ ]` Update `Theme.kt` to use "Strong" colors in Light Mode
+- `[ ]` Fix Rest Panel button visibility in `ActiveSessionScreen.kt`
+- `[ ]` Final Verification

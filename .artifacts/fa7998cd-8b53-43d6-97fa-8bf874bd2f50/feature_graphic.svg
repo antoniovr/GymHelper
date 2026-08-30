@@ -1,0 +1,51 @@
+<svg width="1024" height="500" viewBox="0 0 1024 500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1024" height="500" fill="#1A2634"/>
+  <defs>
+    <radialGradient id="grad1" cx="50%" cy="50%" r="70%" fx="50%" fy="50%">
+      <stop offset="0%" style="stop-color:#243447;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1A2634;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  <rect width="1024" height="500" fill="url(#grad1)"/>
+
+  <!-- Logo Elements -->
+  <g transform="translate(412, 100) scale(2)">
+    <!-- Dumbbell Shadow -->
+    <rect x="12" y="27" width="80" height="10" rx="5" fill="#000000" opacity="0.2"/>
+    <!-- Dumbbell -->
+    <rect x="10" y="25" width="80" height="10" rx="5" fill="#79B8FF" opacity="0.9"/>
+    <rect x="0" y="15" width="20" height="30" rx="4" fill="#79B8FF"/>
+    <rect x="80" y="15" width="20" height="30" rx="4" fill="#79B8FF"/>
+
+    <!-- Stopwatch -->
+    <circle cx="50" cy="20" r="28" fill="none" stroke="#79B8FF" stroke-width="4" opacity="0.4"/>
+    <path d="M50 5 V20 L62 26" stroke="#FFFFFF" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Title Text -->
+  <text x="512" y="330" font-family="Arial, Helvetica, sans-serif" font-size="84" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="8">GYM HELPER</text>
+
+  <!-- Slogan Text -->
+  <rect x="362" y="355" width="300" height="40" rx="20" fill="#79B8FF" opacity="0.15"/>
+  <text x="512" y="382" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold" fill="#79B8FF" text-anchor="middle" letter-spacing="2">PRIVACY-FOCUSED TRACKING</text>
+
+  <!-- Decoration lines -->
+  <line x1="100" y1="250" x2="300" y2="250" stroke="#79B8FF" stroke-width="1" opacity="0.2"/>
+  <line x1="724" y1="250" x2="924" y2="250" stroke="#79B8FF" stroke-width="1" opacity="0.2"/>
+
+  <!-- Features Row -->
+  <g transform="translate(0, 450)">
+     <!-- Local Data Feature -->
+     <circle cx="256" cy="-10" r="20" fill="#79B8FF" opacity="0.1"/>
+     <text x="256" y="0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="bold" fill="#AAB8C2" text-anchor="middle">OFFLINE DATABASE</text>
+
+     <!-- Smart Timers Feature -->
+     <circle cx="512" cy="-10" r="20" fill="#79B8FF" opacity="0.1"/>
+     <text x="512" y="0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="bold" fill="#AAB8C2" text-anchor="middle">HEADPHONE CUES</text>
+
+     <!-- Customization Feature -->
+     <circle cx="768" cy="-10" r="20" fill="#79B8FF" opacity="0.1"/>
+     <text x="768" y="0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="bold" fill="#AAB8C2" text-anchor="middle">5 ACCENT COLORS</text>
+  </g>
+</svg>

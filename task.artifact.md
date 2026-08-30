@@ -1,0 +1,5 @@
+- `[x]` Refactor `WorkoutViewModel.kt` to be fully reactive using `StateFlow`
+- `[x]` Implement robust normalization and swap logic for reordering
+- `[x]` Update `deleteWorkout` logic to maintain sequence integrity
+- `[x]` Update `WorkoutListScreen.kt` to remove redundant refresh calls
+- `[x]` Final Verification

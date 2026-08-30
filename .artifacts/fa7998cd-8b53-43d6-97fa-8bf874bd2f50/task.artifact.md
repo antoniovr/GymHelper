@@ -1,0 +1,11 @@
+- [ ] Fix UI Spacing in `ActiveSessionScreen.kt`
+    - [ ] Reduce header and list vertical spacing
+    - [ ] Optimize card internal paddings
+- [ ] Fix Rotation bug
+    - [ ] Use `LaunchedEffect` instead of `DisposableEffect` for `startSession`
+    - [ ] Ensure `SessionViewModel` state is preserved correctly
+- [ ] Fix Overlapping Timers
+    - [ ] Implement `cancelAllTimers()` in `SessionViewModel.kt`
+    - [ ] Use it in all timer-starting functions
+    - [ ] Ensure `RestTimerService.kt` cancels existing jobs on new commands
+- [ ] Verify fixes

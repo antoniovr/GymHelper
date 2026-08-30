@@ -1,0 +1,9 @@
+com.tibarra.gymhelper.shared-pngs-0 C:\Users\anton\AndroidStudioProjects\GymHelper\shared\build\generated\res\pngs\debug
+com.tibarra.gymhelper.shared-updated_navigation_xml-1 C:\Users\anton\AndroidStudioProjects\GymHelper\shared\build\generated\updated_navigation_xml\debug
+com.tibarra.gymhelper.shared-mergeDebugResources-2 C:\Users\anton\AndroidStudioProjects\GymHelper\shared\build\intermediates\incremental\debug\mergeDebugResources\merged.dir
+com.tibarra.gymhelper.shared-mergeDebugResources-3 C:\Users\anton\AndroidStudioProjects\GymHelper\shared\build\intermediates\incremental\debug\mergeDebugResources\stripped.dir
+com.tibarra.gymhelper.shared-debug-4 C:\Users\anton\AndroidStudioProjects\GymHelper\shared\build\intermediates\merged_res\debug\mergeDebugResources
+com.tibarra.gymhelper.shared-debug-5 C:\Users\anton\AndroidStudioProjects\GymHelper\shared\build\intermediates\packaged_res\debug\packageDebugResources
+com.tibarra.gymhelper.shared-debug-6 C:\Users\anton\AndroidStudioProjects\GymHelper\shared\src\debug\res
+com.tibarra.gymhelper.shared-main-7 C:\Users\anton\AndroidStudioProjects\GymHelper\shared\src\main\res
+gradleHome-0 C:\Users\anton\.gradle
