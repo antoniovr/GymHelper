@@ -173,9 +173,10 @@ fun ActiveSessionScreen(
 
                             if (uiState.isStarted && !uiState.isResting && !isFinished) {
                                 GymButton(
-                                    text = if (uiState.isWarmupActive) "Finish Warm-up" else "Start Warm-up",
+                                    text = if (uiState.isWarmupActive) "FINISH WARM-UP" else "START WARM-UP",
                                     onClick = { if (uiState.isWarmupActive) viewModel.stopWarmup(context) else viewModel.startWarmup(context) },
-                                    containerColor = if (uiState.isWarmupActive) Color.Red else MaterialTheme.colorScheme.primary
+                                    containerColor = if (uiState.isWarmupActive) Color.Red else MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier.fillMaxWidth().height(64.dp)
                                 )
                             }
                         }
@@ -215,23 +216,23 @@ fun ActiveSessionScreen(
                 item {
                     val cardioMinutes = uiState.workout?.cardioDurationMinutes ?: 0
                     if (cardioMinutes > 0) {
-                        GymCard(modifier = Modifier.alpha(if (uiState.isStarted) 1f else 0.5f)) {
+                        GymCard(modifier = Modifier.alpha(if (uiState.isStarted && !uiState.isCardioFinished) 1f else 0.5f)) {
                             Text("CARDIO: ${uiState.workout?.cardioType?.uppercase()}", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
                             
                             val elapsedSeconds = uiState.cardioTimeSeconds
                             val configuredSeconds = cardioMinutes * 60
                             val remainingSeconds = configuredSeconds - elapsedSeconds
                             
-                            val displayTime = if (remainingSeconds >= 0) {
+                            val displayTime = if ((remainingSeconds >= 0) && !uiState.isCardioFinished) {
                                 TimeUtils.formatTime(remainingSeconds)
                             } else {
-                                "EXTRA: ${TimeUtils.formatTime(-remainingSeconds)}"
+                                (if (remainingSeconds < 0 && !uiState.isCardioFinished) "EXTRA: " else "") + TimeUtils.formatTime(if (uiState.isCardioFinished) elapsedSeconds else -remainingSeconds)
                             }
 
                             Text(
                                 text = displayTime,
                                 style = MaterialTheme.typography.displayMedium,
-                                color = if (remainingSeconds >= 0) MaterialTheme.colorScheme.primary else Color.Yellow,
+                                color = if (uiState.isCardioFinished) Color.Gray else if (remainingSeconds >= 0) MaterialTheme.colorScheme.primary else Color.Yellow,
                                 modifier = Modifier.align(Alignment.CenterHorizontally)
                             )
 

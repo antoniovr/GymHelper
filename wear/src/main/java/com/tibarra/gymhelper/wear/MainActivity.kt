@@ -14,7 +14,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val uiState by SyncStore.nodeState.collectAsState()
             MaterialTheme {
-                WearApp(uiState)
+                WearApp(uiState, onFinish = { finish() })
             }
         }
     }

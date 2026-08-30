@@ -340,7 +340,7 @@ class RestTimerService : Service() {
         val builder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(title)
             .setContentText(content)
-            .setSmallIcon(com.tibarra.gymhelper.R.mipmap.ic_launcher)
+            .setSmallIcon(com.tibarra.gymhelper.R.drawable.ic_fitness_center)
             .setOngoing(true)
             .setOnlyAlertOnce(true)
             .setContentIntent(pendingIntent)

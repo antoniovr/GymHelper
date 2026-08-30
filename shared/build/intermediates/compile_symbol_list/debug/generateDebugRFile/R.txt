@@ -1,0 +1,1 @@
+int drawable ic_gym_dumbbell 0x0

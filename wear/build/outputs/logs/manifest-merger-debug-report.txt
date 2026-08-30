@@ -136,7 +136,7 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\an
 	android:label
 		ADDED from C:\Users\anton\AndroidStudioProjects\GymHelper\wear\src\main\AndroidManifest.xml:10:9-40
 	android:icon
-		ADDED from C:\Users\anton\AndroidStudioProjects\GymHelper\wear\src\main\AndroidManifest.xml:9:9-56
+		ADDED from C:\Users\anton\AndroidStudioProjects\GymHelper\wear\src\main\AndroidManifest.xml:9:9-51
 	android:allowBackup
 		ADDED from C:\Users\anton\AndroidStudioProjects\GymHelper\wear\src\main\AndroidManifest.xml:8:9-35
 	android:theme

@@ -31,9 +31,13 @@ data class SessionUiState(
     val strengthStartTime: Long = 0,
     val strengthEndTime: Long = 0,
     val totalSessionTimeSeconds: Int = 0,
+    val warmupEndTimestamp: Long = 0,
     val warmupTimeSeconds: Int = 0,
+    val warmupTargetSeconds: Int = 0,
     val isWarmupActive: Boolean = false,
+    val cardioEndTimestamp: Long = 0,
     val cardioTimeSeconds: Int = 0,
+    val cardioTargetSeconds: Int = 0,
     val isCardioActive: Boolean = false,
     val isCardioFinished: Boolean = false,
     val isFinished: Boolean = false,
@@ -98,7 +102,7 @@ class SessionViewModel(private val dao: GymDao) : ViewModel() {
         
         viewModelScope.launch {
             _uiState.onEach { state ->
-                wearSyncManager?.syncState(state.toSharedState())
+                wearSyncManager?.syncState(state.toSharedState(prefsManager))
             }.collect()
         }
 
@@ -136,7 +140,10 @@ class SessionViewModel(private val dao: GymDao) : ViewModel() {
             SyncUtils.CMD_START_WARMUP -> startWarmup(context)
             SyncUtils.CMD_STOP_WARMUP -> stopWarmup(context)
             SyncUtils.CMD_START_CARDIO -> startCardio(context)
-            SyncUtils.CMD_STOP_CARDIO -> stopCardio(context)
+            SyncUtils.CMD_STOP_CARDIO -> {
+                val markAsFinished = payload == "finish"
+                stopCardio(context, markAsFinished)
+            }
         }
     }
 
@@ -167,7 +174,9 @@ class SessionViewModel(private val dao: GymDao) : ViewModel() {
 
             _uiState.value = SessionUiState(
                 workout = workout,
-                exercises = exercisesWithState
+                exercises = exercisesWithState,
+                warmupTargetSeconds = workout.warmupDurationMinutes * 60,
+                cardioTargetSeconds = workout.cardioDurationMinutes * 60
             )
         }
     }
@@ -385,8 +394,10 @@ class SessionViewModel(private val dao: GymDao) : ViewModel() {
         cancelAllTimers()
         val state = _uiState.value
         val totalSeconds = (state.workout?.warmupDurationMinutes ?: 0) * 60
+        val endTimestamp = System.currentTimeMillis() + (totalSeconds * 1000L)
+        
         val remaining = if (state.warmupTimeSeconds > 0) totalSeconds - state.warmupTimeSeconds else totalSeconds
-        _uiState.update { it.copy(isWarmupActive = true) }
+        _uiState.update { it.copy(isWarmupActive = true, warmupEndTimestamp = endTimestamp) }
         
         context?.let {
             val intent = Intent(it, RestTimerService::class.java).apply {
@@ -425,8 +436,10 @@ class SessionViewModel(private val dao: GymDao) : ViewModel() {
         val now = System.currentTimeMillis()
         val state = _uiState.value
         val totalSeconds = (state.workout?.cardioDurationMinutes ?: 0) * 60
+        val endTimestamp = now + (totalSeconds * 1000L)
+        
         val remaining = if (state.cardioTimeSeconds > 0) totalSeconds - state.cardioTimeSeconds else totalSeconds
-        _uiState.update { it.copy(isCardioActive = true, cardioStartTime = if (it.cardioStartTime == 0L) now else it.cardioStartTime) }
+        _uiState.update { it.copy(isCardioActive = true, cardioStartTime = if (it.cardioStartTime == 0L) now else it.cardioStartTime, cardioEndTimestamp = endTimestamp) }
         
         context?.let {
             val intent = Intent(it, RestTimerService::class.java).apply {
@@ -516,6 +529,9 @@ class SessionViewModel(private val dao: GymDao) : ViewModel() {
         cancelAllTimers()
         sessionTimerJob?.cancel()
         
+        // Notify Wear OS that session is over
+        _uiState.update { it.copy(isStarted = false, isFinished = true, workout = null, exercises = emptyList()) }
+
         // Stop the foreground service completely
         val intent = Intent(context, RestTimerService::class.java).apply {
             action = RestTimerService.ACTION_STOP_SESSION
@@ -626,7 +642,7 @@ class SessionViewModel(private val dao: GymDao) : ViewModel() {
     }
 }
 
-private fun SessionUiState.toSharedState(): com.tibarra.gymhelper.shared.model.SessionUiState {
+private fun SessionUiState.toSharedState(prefs: com.tibarra.gymhelper.util.PreferencesManager?): com.tibarra.gymhelper.shared.model.SessionUiState {
     val activeExerciseIndex = exercises.indexOfFirst { ex ->
         ex.sets.any { it.isCompleted } && !ex.sets.all { it.isCompleted }
     }
@@ -656,12 +672,14 @@ private fun SessionUiState.toSharedState(): com.tibarra.gymhelper.shared.model.S
         restTimeLeft = restTimeLeft,
         totalRestSeconds = totalRestSeconds,
         totalSessionTimeSeconds = totalSessionTimeSeconds,
-        warmupTimeSeconds = warmupTimeSeconds,
+        warmupEndTimestamp = warmupEndTimestamp,
         isWarmupActive = isWarmupActive,
-        cardioTimeSeconds = cardioTimeSeconds,
+        cardioEndTimestamp = cardioEndTimestamp,
         isCardioActive = isCardioActive,
         isCardioFinished = isCardioFinished,
         isFinished = isFinished,
-        isStarted = isStarted
+        isStarted = isStarted,
+        accentColorIndex = prefs?.accentColorIndex ?: 0,
+        themeMode = prefs?.themeMode ?: 0
     )
 }

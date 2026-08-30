@@ -75,7 +75,7 @@ fun SettingsScreen(
     
     var errorMessage by remember { mutableStateOf<String?>(null) }
     
-    val datePrefix = remember { SimpleDateFormat("yyMMdd", Locale.getDefault()).format(Date()) }
+    val datePrefix = remember { SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(Date()) }
 
     val importMimeTypes = arrayOf(
         "text/csv", 
@@ -332,7 +332,7 @@ fun SettingsScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         Button(
-                            onClick = { exportSettingsLauncher.launch("${datePrefix}_GymHelper_Settings.csv") },
+                            onClick = { exportSettingsLauncher.launch("${datePrefix}_Settings_GH.csv") },
                             modifier = Modifier.weight(1f),
                             shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
@@ -362,7 +362,7 @@ fun SettingsScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         Button(
-                            onClick = { exportWorkoutsLauncher.launch("${datePrefix}_GymHelper_Workouts.csv") },
+                            onClick = { exportWorkoutsLauncher.launch("${datePrefix}_Workouts_GH.csv") },
                             modifier = Modifier.weight(1f),
                             shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
@@ -392,7 +392,7 @@ fun SettingsScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         Button(
-                            onClick = { exportHistoryLauncher.launch("${datePrefix}_GymHelper_History.csv") },
+                            onClick = { exportHistoryLauncher.launch("${datePrefix}_History_GH.csv") },
                             modifier = Modifier.weight(1f),
                             shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)

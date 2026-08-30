@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tibarra.gymhelper"
-    android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionCode="9"
+    android:versionName="1.7" >
 
     <uses-sdk
         android:minSdkVersion="30"
@@ -23,7 +23,7 @@
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
         android:extractNativeLibs="false"
-        android:icon="@android:drawable/ic_dialog_info"
+        android:icon="@drawable/ic_watch_dumbbell"
         android:label="Gym Helper Wear"
         android:supportsRtl="true"
         android:testOnly="true"

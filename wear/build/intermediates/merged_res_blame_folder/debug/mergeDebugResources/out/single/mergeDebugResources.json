@@ -1,0 +1,38 @@
+[
+    {
+        "merged": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-debug-55:\\drawable_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-main-57:\\drawable\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-debug-55:\\drawable_ic_fitness_center.xml.flat",
+        "source": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-main-57:\\drawable\\ic_fitness_center.xml"
+    },
+    {
+        "merged": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-debug-55:\\drawable_ic_watch_dumbbell.xml.flat",
+        "source": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-main-57:\\drawable\\ic_watch_dumbbell.xml"
+    },
+    {
+        "merged": "com.tibarra.gymhelper.wear-debug-55:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.tibarra.gymhelper.wear-main-57:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.tibarra.gymhelper.wear-debug-55:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.tibarra.gymhelper.wear-main-57:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-debug-55:\\drawable_ic_gym_dumbbell.xml.flat",
+        "source": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-main-57:\\drawable\\ic_gym_dumbbell.xml"
+    },
+    {
+        "merged": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-debug-55:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-main-57:\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
+        "merged": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-debug-55:\\drawable_ic_launcher_background.xml.flat",
+        "source": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-main-57:\\drawable\\ic_launcher_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-debug-55:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-main-57:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+    }
+]

@@ -6,7 +6,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@android:drawable/ic_dialog_info"
+        android:icon="@drawable/ic_watch_dumbbell"
         android:label="Gym Helper Wear"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault">

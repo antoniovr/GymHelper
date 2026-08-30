@@ -1,8 +1,8 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 3    package="com.tibarra.gymhelper"
-4    android:versionCode="1"
-5    android:versionName="1.0" >
+4    android:versionCode="9"
+5    android:versionName="1.7" >
 6
 7    <uses-sdk
 7-->INJECTED
@@ -39,8 +39,8 @@
 24        android:debuggable="true"
 25        android:extractNativeLibs="false"
 25-->INJECTED
-26        android:icon="@android:drawable/ic_dialog_info"
-26-->C:\Users\anton\AndroidStudioProjects\GymHelper\wear\src\main\AndroidManifest.xml:9:9-56
+26        android:icon="@drawable/ic_watch_dumbbell"
+26-->C:\Users\anton\AndroidStudioProjects\GymHelper\wear\src\main\AndroidManifest.xml:9:9-51
 27        android:label="Gym Helper Wear"
 27-->C:\Users\anton\AndroidStudioProjects\GymHelper\wear\src\main\AndroidManifest.xml:10:9-40
 28        android:supportsRtl="true"

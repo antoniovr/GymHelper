@@ -7,13 +7,15 @@ data class SessionUiState(
     val restTimeLeft: Int = 0,
     val totalRestSeconds: Int = 0,
     val totalSessionTimeSeconds: Int = 0,
-    val warmupTimeSeconds: Int = 0,
+    val warmupEndTimestamp: Long = 0,
     val isWarmupActive: Boolean = false,
-    val cardioTimeSeconds: Int = 0,
+    val cardioEndTimestamp: Long = 0,
     val isCardioActive: Boolean = false,
     val isCardioFinished: Boolean = false,
     val isFinished: Boolean = false,
-    val isStarted: Boolean = false
+    val isStarted: Boolean = false,
+    val accentColorIndex: Int = 0,
+    val themeMode: Int = 0
 )
 
 data class ExerciseState(
