@@ -1,6 +1,7 @@
 package com.tibarra.gymhelper
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -30,11 +31,14 @@ import com.tibarra.gymhelper.ui.theme.GymHelperTheme
 import com.tibarra.gymhelper.util.PreferencesManager
 
 class MainActivity : ComponentActivity() {
+    private var pendingAction by mutableStateOf<String?>(null)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         val prefsManager = PreferencesManager(this)
+        pendingAction = intent?.getStringExtra("ACTION")
         
         setContent {
             var themeMode by remember { mutableIntStateOf(prefsManager.themeMode) }
@@ -46,20 +50,16 @@ class MainActivity : ComponentActivity() {
                 val currentDestination = navBackStackEntry?.destination
 
                 // Resume logic
-                LaunchedEffect(Unit) {
+                LaunchedEffect(Unit, pendingAction) {
                     val activeId = prefsManager.activeWorkoutId
+                    val isFinishAction = pendingAction == "FINISH_WORKOUT"
+                    
                     if (activeId != -1L) {
-                        navController.navigate(Screen.ActiveSession.createRoute(activeId)) {
+                        navController.navigate(Screen.ActiveSession.createRoute(activeId, isFinishAction)) {
                             popUpTo(Screen.WorkoutList.route) { inclusive = false }
                         }
                     }
-                    
-                    // Handle Intent actions
-                    intent?.getStringExtra("ACTION")?.let { action ->
-                        if (action == "FINISH_WORKOUT") {
-                            // We are already navigating to ActiveSession if activeId != -1
-                        }
-                    }
+                    if (isFinishAction) pendingAction = null
                 }
                 var hasNotificationPermission by remember {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -157,5 +157,10 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        pendingAction = intent.getStringExtra("ACTION")
     }
 }

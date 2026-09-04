@@ -1,38 +1,74 @@
 [
     {
-        "merged": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-debug-55:\\drawable_ic_launcher_foreground.xml.flat",
-        "source": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-main-57:\\drawable\\ic_launcher_foreground.xml"
+        "merged": "com.tibarra.gymhelper.wear-debug-56:/mipmap-xhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.tibarra.gymhelper.wear-main-58:/mipmap-xhdpi/ic_launcher_foreground.webp"
     },
     {
-        "merged": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-debug-55:\\drawable_ic_fitness_center.xml.flat",
-        "source": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-main-57:\\drawable\\ic_fitness_center.xml"
+        "merged": "com.tibarra.gymhelper.wear-debug-56:/drawable_ic_watch_dumbbell.xml.flat",
+        "source": "com.tibarra.gymhelper.wear-main-58:/drawable/ic_watch_dumbbell.xml"
     },
     {
-        "merged": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-debug-55:\\drawable_ic_watch_dumbbell.xml.flat",
-        "source": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-main-57:\\drawable\\ic_watch_dumbbell.xml"
+        "merged": "com.tibarra.gymhelper.wear-debug-56:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.tibarra.gymhelper.wear-main-58:/mipmap-mdpi/ic_launcher.webp"
     },
     {
-        "merged": "com.tibarra.gymhelper.wear-debug-55:/drawable_ic_launcher_background.xml.flat",
-        "source": "com.tibarra.gymhelper.wear-main-57:/drawable/ic_launcher_background.xml"
+        "merged": "com.tibarra.gymhelper.wear-debug-56:/mipmap-xxxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.tibarra.gymhelper.wear-main-58:/mipmap-xxxhdpi/ic_launcher_foreground.webp"
     },
     {
-        "merged": "com.tibarra.gymhelper.wear-debug-55:/drawable_ic_launcher_foreground.xml.flat",
-        "source": "com.tibarra.gymhelper.wear-main-57:/drawable/ic_launcher_foreground.xml"
+        "merged": "com.tibarra.gymhelper.wear-debug-56:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.tibarra.gymhelper.wear-main-58:/mipmap-xhdpi/ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-debug-55:\\drawable_ic_gym_dumbbell.xml.flat",
-        "source": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-main-57:\\drawable\\ic_gym_dumbbell.xml"
+        "merged": "com.tibarra.gymhelper.wear-debug-56:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.tibarra.gymhelper.wear-main-58:/mipmap-xxhdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-debug-55:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-main-57:\\mipmap-anydpi-v26\\ic_launcher.xml"
+        "merged": "com.tibarra.gymhelper.wear-debug-56:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.tibarra.gymhelper.wear-main-58:/mipmap-mdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-debug-55:\\drawable_ic_launcher_background.xml.flat",
-        "source": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-main-57:\\drawable\\ic_launcher_background.xml"
+        "merged": "com.tibarra.gymhelper.wear-debug-56:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.tibarra.gymhelper.wear-main-58:/mipmap-anydpi-v26/ic_launcher_round.xml"
     },
     {
-        "merged": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-debug-55:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
-        "source": "C:\\Users\\anton\\.gradle\\daemon\\9.5.0\\com.tibarra.gymhelper.wear-main-57:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+        "merged": "com.tibarra.gymhelper.wear-debug-56:/mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.tibarra.gymhelper.wear-main-58:/mipmap-xxhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.tibarra.gymhelper.wear-debug-56:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.tibarra.gymhelper.wear-main-58:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.tibarra.gymhelper.wear-debug-56:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.tibarra.gymhelper.wear-main-58:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.tibarra.gymhelper.wear-debug-56:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "com.tibarra.gymhelper.wear-main-58:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.tibarra.gymhelper.wear-debug-56:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.tibarra.gymhelper.wear-main-58:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.tibarra.gymhelper.wear-debug-56:/mipmap-hdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.tibarra.gymhelper.wear-main-58:/mipmap-hdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.tibarra.gymhelper.wear-debug-56:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.tibarra.gymhelper.wear-main-58:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.tibarra.gymhelper.wear-debug-56:/mipmap-mdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.tibarra.gymhelper.wear-main-58:/mipmap-mdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.tibarra.gymhelper.wear-debug-56:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.tibarra.gymhelper.wear-main-58:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.tibarra.gymhelper.wear-debug-56:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.tibarra.gymhelper.wear-main-58:/mipmap-xxxhdpi/ic_launcher_round.webp"
     }
 ]

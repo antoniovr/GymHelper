@@ -11,8 +11,8 @@ android {
         applicationId = "com.tibarra.gymhelper"
         minSdk = 30
         targetSdk = 35
-        versionCode = 9
-        versionName = "1.7"
+        versionCode = 11
+        versionName = "1.9"
     }
 
     buildTypes {
@@ -42,6 +42,7 @@ dependencies {
     implementation(libs.androidx.wear.compose.material3)
     implementation(libs.androidx.wear.compose.foundation)
     implementation(libs.androidx.wear.compose.navigation)
+    implementation(libs.androidx.wear.ongoing)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.core.ktx)

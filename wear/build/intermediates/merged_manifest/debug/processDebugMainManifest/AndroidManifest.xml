@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tibarra.gymhelper"
-    android:versionCode="9"
-    android:versionName="1.7" >
+    android:versionCode="11"
+    android:versionName="1.9" >
 
     <uses-sdk
         android:minSdkVersion="30"
@@ -11,6 +11,9 @@
     <uses-feature android:name="android.hardware.type.watch" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <permission
         android:name="com.tibarra.gymhelper.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
@@ -23,11 +26,12 @@
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
         android:extractNativeLibs="false"
-        android:icon="@drawable/ic_watch_dumbbell"
+        android:icon="@mipmap/ic_launcher"
         android:label="Gym Helper Wear"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:testOnly="true"
-        android:theme="@android:style/Theme.DeviceDefault" >
+        android:theme="@style/Theme.GymHelper" >
         <meta-data
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
@@ -39,7 +43,7 @@
         <activity
             android:name="com.tibarra.gymhelper.wear.MainActivity"
             android:exported="true"
-            android:theme="@android:style/Theme.DeviceDefault" >
+            android:theme="@style/Theme.GymHelper" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -59,6 +63,15 @@
                     android:pathPrefix="/session_state"
                     android:scheme="wear" />
             </intent-filter>
+        </service>
+        <service
+            android:name="com.tibarra.gymhelper.wear.service.GymOngoingService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="specialUse" >
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Gym workout session tracking" />
         </service>
 
         <activity

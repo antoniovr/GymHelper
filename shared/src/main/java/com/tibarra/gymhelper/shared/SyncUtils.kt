@@ -16,6 +16,7 @@ object SyncUtils {
     const val CMD_STOP_WARMUP = "stop_warmup"
     const val CMD_START_CARDIO = "start_cardio"
     const val CMD_STOP_CARDIO = "stop_cardio"
+    const val CMD_FINISH_SESSION = "finish_session"
 
     fun toJson(state: SessionUiState): String = gson.toJson(state)
     fun fromJson(json: String): SessionUiState = gson.fromJson(json, SessionUiState::class.java)

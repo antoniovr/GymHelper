@@ -11,7 +11,9 @@ import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.tibarra.gymhelper.MainActivity
+import com.tibarra.gymhelper.R
 import com.tibarra.gymhelper.util.PreferencesManager
+import com.tibarra.gymhelper.util.SystemCommandEventBus
 import kotlinx.coroutines.*
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -63,8 +65,7 @@ class RestTimerService : Service() {
                 mode = TimerMode.SESSION
                 initialSeconds = 0
                 remainingSeconds = 0
-                val notification = createNotification()
-                startForeground(NOTIFICATION_ID, notification)
+                updateNotification()
             }
             ACTION_STOP_SESSION -> {
                 timerJob?.cancel()
@@ -90,6 +91,8 @@ class RestTimerService : Service() {
             ACTION_STOP_REST -> {
                 timerJob?.cancel()
                 mode = TimerMode.SESSION
+                initialSeconds = 0
+                remainingSeconds = 0
                 updateNotification()
             }
             ACTION_START_CARDIO -> {
@@ -103,6 +106,8 @@ class RestTimerService : Service() {
             ACTION_STOP_CARDIO -> {
                 timerJob?.cancel()
                 mode = TimerMode.SESSION
+                initialSeconds = 0
+                remainingSeconds = 0
                 updateNotification()
             }
             ACTION_START_WARMUP -> {
@@ -116,14 +121,41 @@ class RestTimerService : Service() {
             ACTION_STOP_WARMUP -> {
                 timerJob?.cancel()
                 mode = TimerMode.SESSION
+                initialSeconds = 0
+                remainingSeconds = 0
+                updateNotification()
+            }
+            "RESPAWN_NOTIFICATION" -> {
                 updateNotification()
             }
             ACTION_FINISH_SESSION -> {
-                val restartIntent = Intent(this, MainActivity::class.java).apply {
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    putExtra("ACTION", "FINISH_WORKOUT")
+                if (mode == TimerMode.SESSION) {
+                    serviceScope.launch {
+                        SystemCommandEventBus.commands.emit(SystemCommandEventBus.CMD_FINISH_WORKOUT)
+                    }
+                    
+                    val restartIntent = Intent(this, MainActivity::class.java).apply {
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        putExtra("ACTION", "FINISH_WORKOUT")
+                    }
+                    startActivity(restartIntent)
+                } else {
+                    val oldMode = mode
+                    timerJob?.cancel()
+                    mode = TimerMode.SESSION
+                    initialSeconds = 0
+                    remainingSeconds = 0
+                    updateNotification()
+                    
+                    serviceScope.launch {
+                        when (oldMode) {
+                            TimerMode.REST -> SystemCommandEventBus.commands.emit(SystemCommandEventBus.CMD_SKIP_REST)
+                            TimerMode.WARMUP -> SystemCommandEventBus.commands.emit(SystemCommandEventBus.CMD_STOP_WARMUP)
+                            TimerMode.CARDIO -> SystemCommandEventBus.commands.emit(SystemCommandEventBus.CMD_STOP_CARDIO)
+                            else -> {}
+                        }
+                    }
                 }
-                startActivity(restartIntent)
             }
             ACTION_SKIP_REST_NOTIF -> {
                 if (mode == TimerMode.REST) {
@@ -337,13 +369,17 @@ class RestTimerService : Service() {
         val skipIntent = Intent(this, RestTimerService::class.java).apply { action = ACTION_SKIP_REST_NOTIF }
         val skipPendingIntent = PendingIntent.getService(this, 2, skipIntent, PendingIntent.FLAG_IMMUTABLE)
 
+        val respawnIntent = Intent(this, RestTimerService::class.java).apply { action = "RESPAWN_NOTIFICATION" }
+        val respawnPendingIntent = PendingIntent.getService(this, 3, respawnIntent, PendingIntent.FLAG_IMMUTABLE)
+
         val builder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(title)
             .setContentText(content)
-            .setSmallIcon(com.tibarra.gymhelper.R.drawable.ic_fitness_center)
+            .setSmallIcon(R.mipmap.ic_launcher)
             .setOngoing(true)
             .setOnlyAlertOnce(true)
             .setContentIntent(pendingIntent)
+            .setDeleteIntent(respawnPendingIntent)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setCategory(NotificationCompat.CATEGORY_ALARM)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -355,7 +391,7 @@ class RestTimerService : Service() {
             builder.addAction(android.R.drawable.ic_media_next, "SKIP", skipPendingIntent)
         }
 
-        if (initialSeconds > 0) {
+        if (mode != TimerMode.SESSION && initialSeconds > 0) {
             if (remainingSeconds >= 0) {
                 builder.setProgress(initialSeconds, initialSeconds - remainingSeconds, false)
             } else {
@@ -368,8 +404,7 @@ class RestTimerService : Service() {
 
     private fun updateNotification() {
         val notification = createNotification()
-        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(NOTIFICATION_ID, notification)
+        startForeground(NOTIFICATION_ID, notification)
     }
 
     private fun formatTime(seconds: Int): String {
@@ -397,8 +432,6 @@ class RestTimerService : Service() {
 
     override fun onTaskRemoved(rootIntent: Intent?) {
         // This is called when the app is swiped away from Recents
-        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        
         val intent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
@@ -407,7 +440,7 @@ class RestTimerService : Service() {
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("Workout Still Running")
             .setContentText("The app was closed, but your session is still active. Tap to return.")
-            .setSmallIcon(com.tibarra.gymhelper.R.mipmap.ic_launcher)
+            .setSmallIcon(R.mipmap.ic_launcher)
             .setPriority(NotificationCompat.PRIORITY_MAX)
             .setCategory(NotificationCompat.CATEGORY_ALARM)
             .setOngoing(true)
@@ -415,7 +448,7 @@ class RestTimerService : Service() {
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .build()
 
-        notificationManager.notify(NOTIFICATION_ID, notification)
+        startForeground(NOTIFICATION_ID, notification)
         
         // We don't stop the service, let it be killed by the system if needed, 
         // but we've updated the notification to warn the user.

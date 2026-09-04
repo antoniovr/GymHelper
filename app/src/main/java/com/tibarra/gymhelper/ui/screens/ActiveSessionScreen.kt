@@ -37,6 +37,8 @@ import com.tibarra.gymhelper.ui.viewmodel.SetActiveState
 import com.tibarra.gymhelper.ui.viewmodel.SessionViewModel
 import com.tibarra.gymhelper.util.TimeUtils
 import com.tibarra.gymhelper.util.WakeLockManager
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 @Composable
@@ -44,7 +46,8 @@ fun ActiveSessionScreen(
     workoutId: Long,
     onSessionEnd: () -> Unit,
     modifier: Modifier = Modifier,
-    bottomPadding: Dp = 0.dp
+    bottomPadding: Dp = 0.dp,
+    finishOnStart: Boolean = false
 ) {
     val context = LocalContext.current
     val db = remember { GymDatabase.getDatabase(context) }
@@ -66,6 +69,9 @@ fun ActiveSessionScreen(
     LaunchedEffect(workoutId) {
         viewModel.startSession(workoutId)
         viewModel.initWearSync(context)
+        if (finishOnStart) {
+            viewModel.finishWorkoutAuto(context)
+        }
     }
 
     DisposableEffect(Unit) {
@@ -509,6 +515,19 @@ fun ExerciseSessionCard(
                 onUpdate = { w, r -> onUpdateSet(sIndex, w, r) }
             )
         }
+
+        exState.selectedVariant?.let { variant ->
+            if (variant.initialWeight > 0) {
+                Spacer(modifier = Modifier.height(8.dp))
+                val dateStr = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(variant.initialWeightDate))
+                Text(
+                    text = "Started with: ${variant.initialWeight}kg on $dateStr",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = Color.Gray,
+                    modifier = Modifier.padding(horizontal = 4.dp)
+                )
+            }
+        }
     }
 }
 
@@ -527,20 +546,24 @@ fun SetRow(
     ) {
         Text(if (setState.isDropSet) "DR" else "S${setState.setNumber}", fontWeight = FontWeight.Bold, modifier = Modifier.width(30.dp), color = if (setState.isDropSet) Color.Yellow else MaterialTheme.colorScheme.onSurface)
         
-        var tempWeight by remember(setState.weight) { mutableStateOf(if (setState.weight == 0.0) "" else setState.weight.toString()) }
-        OutlinedTextField(
-            value = tempWeight,
-            onValueChange = { 
-                tempWeight = it
-                if (it.isNotEmpty()) {
-                    it.toDoubleOrNull()?.let { w -> onUpdate(w, setState.reps) }
-                }
-            },
-            label = { Text("kg") },
-            modifier = Modifier.width(85.dp),
-            enabled = isEnabled && !setState.isCompleted,
-            singleLine = true
-        )
+        Box(modifier = Modifier.width(85.dp)) {
+            if (setState.weight > 0.0) {
+                var tempWeight by remember(setState.weight) { mutableStateOf(if (setState.weight == 0.0) "" else setState.weight.toString()) }
+                OutlinedTextField(
+                    value = tempWeight,
+                    onValueChange = { 
+                        tempWeight = it
+                        if (it.isNotEmpty()) {
+                            it.toDoubleOrNull()?.let { w -> onUpdate(w, setState.reps) }
+                        }
+                    },
+                    label = { Text("kg") },
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = isEnabled && !setState.isCompleted,
+                    singleLine = true
+                )
+            }
+        }
         
         var tempReps by remember(setState.reps) { mutableStateOf(setState.reps.toString()) }
         OutlinedTextField(

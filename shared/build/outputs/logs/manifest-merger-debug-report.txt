@@ -1,16 +1,16 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\anton\AndroidStudioProjects\GymHelper\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest11931711365421172338.xml:2:13-83
-INJECTED from C:\Users\anton\AndroidStudioProjects\GymHelper\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest11931711365421172338.xml:2:13-83
+ADDED from C:\Users\anton\AndroidStudioProjects\GymHelper\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1870275747873084476.xml:2:13-83
+INJECTED from C:\Users\anton\AndroidStudioProjects\GymHelper\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1870275747873084476.xml:2:13-83
 	package
-		INJECTED from C:\Users\anton\AndroidStudioProjects\GymHelper\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest11931711365421172338.xml
+		INJECTED from C:\Users\anton\AndroidStudioProjects\GymHelper\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1870275747873084476.xml
 	xmlns:android
-		ADDED from C:\Users\anton\AndroidStudioProjects\GymHelper\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest11931711365421172338.xml:2:23-81
+		ADDED from C:\Users\anton\AndroidStudioProjects\GymHelper\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1870275747873084476.xml:2:23-81
 uses-sdk
-INJECTED from C:\Users\anton\AndroidStudioProjects\GymHelper\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest11931711365421172338.xml reason: use-sdk injection requested
-INJECTED from C:\Users\anton\AndroidStudioProjects\GymHelper\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest11931711365421172338.xml
-INJECTED from C:\Users\anton\AndroidStudioProjects\GymHelper\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest11931711365421172338.xml
+INJECTED from C:\Users\anton\AndroidStudioProjects\GymHelper\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1870275747873084476.xml reason: use-sdk injection requested
+INJECTED from C:\Users\anton\AndroidStudioProjects\GymHelper\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1870275747873084476.xml
+INJECTED from C:\Users\anton\AndroidStudioProjects\GymHelper\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1870275747873084476.xml
 	android:targetSdkVersion
-		INJECTED from C:\Users\anton\AndroidStudioProjects\GymHelper\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest11931711365421172338.xml
+		INJECTED from C:\Users\anton\AndroidStudioProjects\GymHelper\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1870275747873084476.xml
 	android:minSdkVersion
-		INJECTED from C:\Users\anton\AndroidStudioProjects\GymHelper\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest11931711365421172338.xml
+		INJECTED from C:\Users\anton\AndroidStudioProjects\GymHelper\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest1870275747873084476.xml

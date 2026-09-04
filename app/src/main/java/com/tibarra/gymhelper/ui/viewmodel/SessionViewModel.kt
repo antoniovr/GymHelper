@@ -11,6 +11,7 @@ import com.tibarra.gymhelper.data.model.*
 import com.tibarra.gymhelper.service.RestTimerService
 import com.tibarra.gymhelper.shared.SyncUtils
 import com.tibarra.gymhelper.util.CsvManager
+import com.tibarra.gymhelper.util.SystemCommandEventBus
 import com.tibarra.gymhelper.util.TimeUtils
 import com.tibarra.gymhelper.util.WearCommandEventBus
 import com.tibarra.gymhelper.util.WearSyncManager
@@ -114,8 +115,11 @@ class SessionViewModel(private val dao: GymDao) : ViewModel() {
 
         viewModelScope.launch {
             com.tibarra.gymhelper.util.SystemCommandEventBus.commands.collect { command ->
-                if (command == com.tibarra.gymhelper.util.SystemCommandEventBus.CMD_SKIP_REST) {
-                    skipRest(context)
+                when (command) {
+                    SystemCommandEventBus.CMD_SKIP_REST -> skipRest(context)
+                    SystemCommandEventBus.CMD_FINISH_WORKOUT -> finishWorkoutAuto(context)
+                    SystemCommandEventBus.CMD_STOP_WARMUP -> stopWarmup(context)
+                    SystemCommandEventBus.CMD_STOP_CARDIO -> stopCardio(context)
                 }
             }
         }
@@ -144,6 +148,7 @@ class SessionViewModel(private val dao: GymDao) : ViewModel() {
                 val markAsFinished = payload == "finish"
                 stopCardio(context, markAsFinished)
             }
+            SyncUtils.CMD_FINISH_SESSION -> finishWorkoutAuto(context)
         }
     }
 
@@ -182,9 +187,20 @@ class SessionViewModel(private val dao: GymDao) : ViewModel() {
     }
 
     fun startWorkout(context: Context? = null) {
-        startTimeMillis = System.currentTimeMillis()
-        lastActionTimestamp = startTimeMillis
-        _uiState.update { it.copy(isStarted = true) }
+        val now = System.currentTimeMillis()
+        startTimeMillis = now
+        lastActionTimestamp = now
+        _uiState.update { 
+            it.copy(
+                isStarted = true, 
+                strengthStartTime = now,
+                totalSessionTimeSeconds = 0,
+                totalRestSeconds = 0,
+                warmupTimeSeconds = 0,
+                cardioTimeSeconds = 0,
+                isCardioFinished = false
+            ) 
+        }
         startSessionTimer()
 
         // Persist active workout ID
@@ -394,16 +410,22 @@ class SessionViewModel(private val dao: GymDao) : ViewModel() {
         cancelAllTimers()
         val state = _uiState.value
         val totalSeconds = (state.workout?.warmupDurationMinutes ?: 0) * 60
-        val endTimestamp = System.currentTimeMillis() + (totalSeconds * 1000L)
+        val currentElapsed = state.warmupTimeSeconds
+        val endTimestamp = System.currentTimeMillis() + ((totalSeconds - currentElapsed) * 1000L)
         
-        val remaining = if (state.warmupTimeSeconds > 0) totalSeconds - state.warmupTimeSeconds else totalSeconds
-        _uiState.update { it.copy(isWarmupActive = true, warmupEndTimestamp = endTimestamp) }
+        _uiState.update { 
+            it.copy(
+                isWarmupActive = true, 
+                warmupEndTimestamp = endTimestamp,
+                warmupTargetSeconds = totalSeconds
+            ) 
+        }
         
         context?.let {
             val intent = Intent(it, RestTimerService::class.java).apply {
                 action = RestTimerService.ACTION_START_WARMUP
                 putExtra(RestTimerService.EXTRA_SECONDS, totalSeconds)
-                putExtra("EXTRA_REMAINING", remaining)
+                putExtra("EXTRA_REMAINING", totalSeconds - currentElapsed)
             }
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 it.startForegroundService(intent)
@@ -436,16 +458,23 @@ class SessionViewModel(private val dao: GymDao) : ViewModel() {
         val now = System.currentTimeMillis()
         val state = _uiState.value
         val totalSeconds = (state.workout?.cardioDurationMinutes ?: 0) * 60
-        val endTimestamp = now + (totalSeconds * 1000L)
+        val currentElapsed = state.cardioTimeSeconds
+        val endTimestamp = now + ((totalSeconds - currentElapsed) * 1000L)
         
-        val remaining = if (state.cardioTimeSeconds > 0) totalSeconds - state.cardioTimeSeconds else totalSeconds
-        _uiState.update { it.copy(isCardioActive = true, cardioStartTime = if (it.cardioStartTime == 0L) now else it.cardioStartTime, cardioEndTimestamp = endTimestamp) }
+        _uiState.update { 
+            it.copy(
+                isCardioActive = true, 
+                cardioStartTime = if (it.cardioStartTime == 0L) now else it.cardioStartTime, 
+                cardioEndTimestamp = endTimestamp,
+                cardioTargetSeconds = totalSeconds
+            ) 
+        }
         
         context?.let {
             val intent = Intent(it, RestTimerService::class.java).apply {
                 action = RestTimerService.ACTION_START_CARDIO
                 putExtra(RestTimerService.EXTRA_SECONDS, totalSeconds)
-                putExtra("EXTRA_REMAINING", remaining)
+                putExtra("EXTRA_REMAINING", totalSeconds - currentElapsed)
             }
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 it.startForegroundService(intent)
@@ -514,6 +543,11 @@ class SessionViewModel(private val dao: GymDao) : ViewModel() {
 
     fun setEffortRating(rating: Int) {
         _uiState.update { it.copy(effortRating = rating) }
+    }
+
+    fun finishWorkoutAuto(context: Context?) {
+        setEffortRating(3)
+        confirmSaveSession(context)
     }
 
     fun discardSession(context: Context? = null) {
@@ -591,8 +625,25 @@ class SessionViewModel(private val dao: GymDao) : ViewModel() {
                         
                         if (!set.isDropSet) {
                             exerciseState.selectedVariant?.let { variant ->
+                                var updatedVariant = variant
+                                var changed = false
+                                
                                 if (set.weight != variant.currentWeight) {
-                                    dao.updateVariant(variant.copy(currentWeight = set.weight))
+                                    updatedVariant = updatedVariant.copy(currentWeight = set.weight)
+                                    changed = true
+                                }
+                                
+                                // Auto-set initial weight if it was never set
+                                if (variant.initialWeight == 0.0 && set.weight > 0.0) {
+                                    updatedVariant = updatedVariant.copy(
+                                        initialWeight = set.weight,
+                                        initialWeightDate = System.currentTimeMillis()
+                                    )
+                                    changed = true
+                                }
+                                
+                                if (changed) {
+                                    dao.updateVariant(updatedVariant)
                                 }
                             }
                         }
@@ -655,6 +706,8 @@ private fun SessionUiState.toSharedState(prefs: com.tibarra.gymhelper.util.Prefe
                 name = ex.exercise.name,
                 variantName = ex.selectedVariant?.name ?: "",
                 variantNotes = ex.selectedVariant?.notes ?: "",
+                initialWeight = ex.selectedVariant?.initialWeight ?: 0.0,
+                initialWeightDate = ex.selectedVariant?.initialWeightDate ?: 0L,
                 sets = ex.sets.map { s ->
                     com.tibarra.gymhelper.shared.model.SetState(
                         setNumber = s.setNumber,
@@ -672,13 +725,16 @@ private fun SessionUiState.toSharedState(prefs: com.tibarra.gymhelper.util.Prefe
         restTimeLeft = restTimeLeft,
         totalRestSeconds = totalRestSeconds,
         totalSessionTimeSeconds = totalSessionTimeSeconds,
-        warmupEndTimestamp = warmupEndTimestamp,
+        warmupTimeSeconds = warmupTimeSeconds,
+        warmupTargetSeconds = (workout?.warmupDurationMinutes ?: 0) * 60,
         isWarmupActive = isWarmupActive,
-        cardioEndTimestamp = cardioEndTimestamp,
+        cardioTimeSeconds = cardioTimeSeconds,
+        cardioTargetSeconds = (workout?.cardioDurationMinutes ?: 0) * 60,
         isCardioActive = isCardioActive,
         isCardioFinished = isCardioFinished,
         isFinished = isFinished,
         isStarted = isStarted,
+        sessionStartTimeMillis = strengthStartTime,
         accentColorIndex = prefs?.accentColorIndex ?: 0,
         themeMode = prefs?.themeMode ?: 0
     )

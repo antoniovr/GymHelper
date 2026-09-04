@@ -1,5 +1,6 @@
 package com.tibarra.gymhelper.wear.service
 
+import android.content.Intent
 import com.google.android.gms.wearable.DataEvent
 import com.google.android.gms.wearable.DataEventBuffer
 import com.google.android.gms.wearable.DataMapItem
@@ -15,7 +16,13 @@ class WearDataListenerService : WearableListenerService() {
                 val dataMap = DataMapItem.fromDataItem(event.dataItem).dataMap
                 val json = dataMap.getString("state")
                 json?.let {
-                    SyncStore.nodeState.value = SyncUtils.fromJson(it)
+                    val state = SyncUtils.fromJson(it)
+                    SyncStore.nodeState.value = state
+                    
+                    if (state.isStarted && !state.isFinished) {
+                        val intent = Intent(this, GymOngoingService::class.java)
+                        startForegroundService(intent)
+                    }
                 }
             }
         }

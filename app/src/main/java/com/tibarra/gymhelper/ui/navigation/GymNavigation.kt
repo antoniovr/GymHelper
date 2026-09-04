@@ -21,8 +21,8 @@ sealed class Screen(val route: String) {
     object WorkoutEditor : Screen("workout_editor/{workoutId}") {
         fun createRoute(workoutId: Long) = "workout_editor/$workoutId"
     }
-    object ActiveSession : Screen("active_session/{workoutId}") {
-        fun createRoute(workoutId: Long) = "active_session/$workoutId"
+    object ActiveSession : Screen("active_session/{workoutId}?finish={finish}") {
+        fun createRoute(workoutId: Long, finish: Boolean = false) = "active_session/$workoutId?finish=$finish"
     }
     object History : Screen("history")
     object Settings : Screen("settings")
@@ -81,13 +81,18 @@ fun GymNavHost(
         
         composable(
             route = Screen.ActiveSession.route,
-            arguments = listOf(navArgument("workoutId") { type = NavType.LongType })
+            arguments = listOf(
+                navArgument("workoutId") { type = NavType.LongType },
+                navArgument("finish") { type = NavType.BoolType; defaultValue = false }
+            )
         ) { backStackEntry ->
             val workoutId = backStackEntry.arguments?.getLong("workoutId") ?: 0L
+            val finishOnStart = backStackEntry.arguments?.getBoolean("finish") ?: false
             ActiveSessionScreen(
                 workoutId = workoutId,
                 modifier = modifier,
                 bottomPadding = bottomPadding,
+                finishOnStart = finishOnStart,
                 onSessionEnd = { 
                     navController.navigate(Screen.WorkoutList.route) {
                         popUpTo(Screen.WorkoutList.route) { inclusive = true }

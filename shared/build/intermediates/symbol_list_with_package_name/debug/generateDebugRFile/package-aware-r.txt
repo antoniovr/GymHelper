@@ -1,2 +1,1 @@
 com.tibarra.gymhelper.shared
-drawable ic_gym_dumbbell

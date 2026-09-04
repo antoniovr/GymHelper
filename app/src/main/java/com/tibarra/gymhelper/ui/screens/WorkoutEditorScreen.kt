@@ -684,8 +684,15 @@ fun VariantEditor(variant: ExerciseVariantEntity, onUpdate: (ExerciseVariantEnti
             )
         }
 
-        val dateStr = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(variant.initialWeightDate))
-        Text("Started: $dateStr", style = MaterialTheme.typography.bodySmall, color = Color.Gray, modifier = Modifier.padding(start = 8.dp))
+        if (variant.initialWeight > 0) {
+            val dateStr = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(variant.initialWeightDate))
+            Text(
+                text = "Started with: ${variant.initialWeight}kg on $dateStr",
+                style = MaterialTheme.typography.bodySmall, 
+                color = Color.Gray, 
+                modifier = Modifier.padding(start = 8.dp)
+            )
+        }
         
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
             var tempSets by remember(variant.defaultSetsCount) { mutableStateOf(variant.defaultSetsCount.toString()) }
